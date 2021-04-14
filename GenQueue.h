@@ -3,7 +3,7 @@
 #include "GenList.h"
 #include <iostream>
 using namespace std;
-
+//A templatized List-based Queue
 template <typename T>
 class GenQueue{
     public:

@@ -3,6 +3,7 @@
 #include <iostream>
 using namespace std;
 
+//The Pure Virtual List class that is inherited by a List ADT
 template <typename T>
 class VirtualList{
     public:

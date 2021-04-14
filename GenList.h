@@ -4,6 +4,9 @@
 #include "VirtualList.h"
 #include <iostream>
 using namespace std;
+
+//A templatized List ADT that inherits from a pure virtual list class
+//The List ADT implements a LinkedList based List
 template <typename T>
 class GenList : VirtualList<T>{
     public:
