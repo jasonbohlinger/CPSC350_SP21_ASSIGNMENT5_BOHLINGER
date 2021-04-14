@@ -30,7 +30,7 @@ int main(int argc, char** argv){
       //nextTickGivenByFile is the next clock tick that is in the input file
       int nextTickGivenByFile;
       reader >> nextTickGivenByFile;
-      while(!reader.fail()){
+      while(!reader.eof()){
          s->incrementWindowIdleTime(1); // Increment window idle time by 1 
          if(currentTick == nextTickGivenByFile){ // Students are arriving at this time if the time is given by the file
             int numStudentsArriving;
@@ -41,25 +41,21 @@ int main(int argc, char** argv){
                s->addStudent(studentTimeNeeded, currentTick); // Adds a student to the end of the line 
             }
             if(!reader.eof()){ // If this is not the end of the file, read the next time given by the file 
+               cout << "Here" << endl;
                reader >> nextTickGivenByFile;
+               cout << "Here again" << endl;
             }
          }
          s->decrementWindowTimers(1); // Decrement the time until a window is open by 1
          s->sendStudentsToWindows(currentTick); // Send students from the line to any available windows
          ++currentTick; // Increment the current clock tick
       }
-      
       while(!s->windowsAreEmpty()){
          s->incrementWindowIdleTime(1);
          s->decrementWindowTimers(1);
          s->sendStudentsToWindows(currentTick);
          ++currentTick;
       }
-      
-      if(!reader.eof()){
-         throw runtime_error ("Unable to fully parse the file");
-      }
-      
       s->getStats(); // Get the statistics from the simulation
       delete s; // Garbage collection
       reader.close();
