@@ -5,7 +5,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <algorithm>
 using namespace std;
 
 
@@ -31,7 +30,9 @@ int main(int argc, char** argv){
       int nextTickGivenByFile;
       reader >> nextTickGivenByFile;
       while(!reader.eof()){
-         s->incrementWindowIdleTime(1); // Increment window idle time by 1 
+         if(currentTick != 0){
+            s->incrementWindowIdleTime(1); // Increment window idle time by 1
+         }
          if(currentTick == nextTickGivenByFile){ // Students are arriving at this time if the time is given by the file
             int numStudentsArriving;
             reader >> numStudentsArriving;
@@ -41,9 +42,7 @@ int main(int argc, char** argv){
                s->addStudent(studentTimeNeeded, currentTick); // Adds a student to the end of the line 
             }
             if(!reader.eof()){ // If this is not the end of the file, read the next time given by the file 
-               cout << "Here" << endl;
                reader >> nextTickGivenByFile;
-               cout << "Here again" << endl;
             }
          }
          s->decrementWindowTimers(1); // Decrement the time until a window is open by 1
@@ -63,64 +62,4 @@ int main(int argc, char** argv){
       cout << "Error: " << e.what() << endl;
       delete s;
    }
-   
-   /*
-   int priorClockTick = 0;
-   int currentClockTick = 0;
-   Simulation *s = new Simulation(numWindows);
-   while(!reader.fail()){
-      string check;
-      reader >> check;
-      if(check.size() == 0){
-         continue;
-      }
-      currentClockTick = stoi(check);
-      cout << "Current clock tick: " << currentClockTick << endl;
-      s->incrementWindowIdleTime(currentClockTick - priorClockTick);
-      int numStudentsArriving;
-      reader >> numStudentsArriving;
-      cout << "Number of students arriving: " << numStudentsArriving << endl;
-      for(int i = 0; i < numStudentsArriving; ++i){
-         int studentTimeNeeded;
-         reader >> studentTimeNeeded;
-         s->addStudent(studentTimeNeeded, currentClockTick);
-         cout << "Student time needed: " << studentTimeNeeded << endl;
-      }
-      s->decrementWindowTimers(currentClockTick - priorClockTick);
-      s->sendStudentsToWindows(currentClockTick);
-      priorClockTick = currentClockTick;
-      
-   }
-   if(!reader.eof()){
-      throw runtime_error ("Unable to fully parse the file");
-   }
-   while(!s->windowsAreEmpty()){
-      s->incrementWindowIdleTime(currentClockTick - priorClockTick);
-      s->decrementWindowTimers(currentClockTick - priorClockTick);
-      s->sendStudentsToWindows(currentClockTick);
-      priorClockTick = currentClockTick;
-      ++currentClockTick;
-   }
-   
-   s->getStats();
-   delete s;
-   */
-   /*vector<Student> v;
-   int count = 1;
-   for(int i = 4; i >= 0; --i){
-      Student* thisStudent = new Student;
-      v.push_back(*thisStudent);
-      v.at(v.size() - 1).setTimeWaited(i);
-   }
-   for(int i = 0; i < 5; ++i){
-      cout << v.at(i).timeWaited << " ";
-   }
-   cout << endl;
-   
-   sort(v.begin(), v.end());
-   
-   for(int i = 0; i < 5; ++i){
-      cout << v.at(i).timeWaited << " ";
-   }
-   cout << endl;*/
 }

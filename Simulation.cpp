@@ -137,6 +137,7 @@ void Simulation::getStats(){
    }
    cout << "The number of students waiting over 10 minutes: " << numStudentsOverTen << endl;
    
+   
    // 5. The mean window idle time
    float meanWindowIdleTime;
    int totalWindowIdleTime = 0;
